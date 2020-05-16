@@ -1,7 +1,10 @@
 use std::env;
 use std::fs;
+use std::fs::File;
+use std::io::prelude::*;
 use std::collections::HashMap;
 
+use serde::{Deserialize, Serialize};
 use serde_json::{Result, Value};
 
 // This is useful for the alttpr.com randomizer, V31
@@ -11,6 +14,7 @@ use serde_json::{Result, Value};
 //
 // TODO: get confirmation on the meanings of some of the things, especially in "meta"
 // TODO: clean up some stuff when I'm better at rust :P :)
+// TODO: tests. Need to figure out the best way to test in rust.
 //
 // NOTE: This is not intended to be used for spoiler log races; it seems a bit unfair unless everyone did it or it was its own category
 //       I may check to see if there is a way to disable it for races (if something is put in the spoiler log). It wouldn't stop someone editing it, however.
@@ -24,7 +28,7 @@ use serde_json::{Result, Value};
 //               Create a mapper that shows all the locations on map (kinda like a tracker but with more info such as actual rewards)
 //               Add an option to try to generate routes based on different options, but that is a long way off.
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Enemizer {
     boss_shuffle:  String,
     enemy_shuffle: String,
@@ -32,7 +36,7 @@ struct Enemizer {
     enemy_health:  String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Bosses {
     eastern_palace: String,
     desert_palace: String,
@@ -52,13 +56,13 @@ struct Bosses {
     ganon: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Prizes {
     crystals: [String; 7],
     pendants: [String; 3],
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Rupees {
     three_hundred_rupees: Vec<String>,
     one_hundred_rupees: Vec<String>,
@@ -68,49 +72,49 @@ struct Rupees {
     one_rupee: Vec<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Bomb {
     bomb_count: u8,
     bomb_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Arrow {
     arrow_count: u8,
     arrow_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Item {
     item_name: String,
     item_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct DungeonMap {
     map_name: String,
     map_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Compass {
     compass_name: String,
     compass_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct BigKey {
     key_name: String,
     key_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct SmallKey {
     key_name: String,
     key_location: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 struct RaceLog {
     // Stuff under meta and basic seed info
     enemizer: Enemizer,
@@ -160,7 +164,8 @@ struct RaceLog {
 }
 
 fn main() {
-    let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <filename>");
+    let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
+    let outfile = env::args().nth(2).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
     println!("Reading from file: {}", filename);
 
     let contents = fs::read_to_string(filename).expect("Could not read file!");
@@ -168,9 +173,22 @@ fn main() {
     let json = string_to_json(&contents).unwrap_or_else(|error| {
         panic!("Problem parsing the file: {:?}", error);
     });
-    let parsed = parse_json(&json);
+    let parsed = parse_json(&json).unwrap_or_else(|error| {
+        panic!("Problem creating output: {:?}", error);
+    });
 
-    println!("Result {:#?}", parsed);
+    let output = serde_json::to_string(&parsed).unwrap();
+    // println!("output {:#?}", output);
+
+    let mut file = File::create(&outfile).unwrap_or_else(|error| {
+        panic!("Could not create file: {:?}", error);
+    });
+
+    let _write_result = file.write_all(&output.as_bytes()).unwrap_or_else(|error| {
+        panic!("Could not write file: {:?}", error);
+    });   
+
+    println!("Output file written. Enjoy!");
 }
 
 fn string_to_json(data: &str) -> Result<serde_json::value::Value> {
