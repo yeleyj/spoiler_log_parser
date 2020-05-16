@@ -4,8 +4,11 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::collections::HashMap;
 
-use serde::{Deserialize, Serialize};
 use serde_json::{Result, Value};
+
+// Structs were moved to another file to keep things more readable here.
+mod structs;
+use structs::{Enemizer, Bosses, Prizes, Rupees, Bomb, Arrow, Item, DungeonMap, Compass, BigKey, SmallKey, RaceLog};
 
 // This is useful for the alttpr.com randomizer, V31
 // So far, I've only tested on open 7/7 with all the easiest options.
@@ -14,165 +17,21 @@ use serde_json::{Result, Value};
 //
 // TODO: get confirmation on the meanings of some of the things, especially in "meta"
 // TODO: clean up some stuff when I'm better at rust :P :)
-// TODO: tests. Need to figure out the best way to test in rust.
-//
-// NOTE: This is not intended to be used for spoiler log races; it seems a bit unfair unless everyone did it or it was its own category
-//       I may check to see if there is a way to disable it for races (if something is put in the spoiler log). It wouldn't stop someone editing it, however.
-// 
-// Future plans:
-//               Friendlier names for some things (could tie into the below)
-//               i18n or whatever works for translations?
-//               Implement the shops struct if requested/required
-//               Attach to a pretty UI
-//               Attach to a web server and do more stuff (users, options, etc. maybe?)
-//               Create a mapper that shows all the locations on map (kinda like a tracker but with more info such as actual rewards)
-//               Add an option to try to generate routes based on different options, but that is a long way off.
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Enemizer {
-    boss_shuffle:  String,
-    enemy_shuffle: String,
-    enemy_damage:  String,
-    enemy_health:  String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Bosses {
-    eastern_palace: String,
-    desert_palace: String,
-    tower_of_hera: String,
-    hyrule_castle: String,
-    palace_of_darkness: String,
-    swamp_palace: String,
-    skull_woods: String,
-    thieves_town: String,
-    ice_palace: String,
-    misery_mire: String,
-    turtle_rock: String,
-    ganons_tower_basement: String,
-    ganons_tower_middle: String,
-    ganons_tower_top: String,
-    ganons_tower: String,
-    ganon: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Prizes {
-    crystals: [String; 7],
-    pendants: [String; 3],
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Rupees {
-    three_hundred_rupees: Vec<String>,
-    one_hundred_rupees: Vec<String>,
-    fifty_rupees: Vec<String>,
-    twenty_rupees: Vec<String>,
-    five_rupees: Vec<String>,
-    one_rupee: Vec<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Bomb {
-    bomb_count: u8,
-    bomb_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Arrow {
-    arrow_count: u8,
-    arrow_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Item {
-    item_name: String,
-    item_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct DungeonMap {
-    map_name: String,
-    map_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Compass {
-    compass_name: String,
-    compass_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct BigKey {
-    key_name: String,
-    key_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct SmallKey {
-    key_name: String,
-    key_location: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct RaceLog {
-    // Stuff under meta and basic seed info
-    enemizer: Enemizer,
-    mode: String,
-    goal: String,
-    entry_crystals_ganon: String,
-    entry_crystals_tower: String,
-    item_placement: String,
-    item_pool: String,
-    item_functionality: String,
-    dungeon_items: String,
-    logic: String,
-    accessibility: String,
-    weapons: String,
-    hints: String,
-    spoilers: String,
-    build: String, // TODO: maybe use to confirm version and error if unsupported?
-    // tournament: String, // TODO: maybe use to disable any parsing or some features?
-    // world_id:
-    // size:
-    // worlds:
-    // rom_mode:
-
-    waterfall_fairy: String,
-    pyramid_fairy: String,
-    
-    turtle_rock_medallion: String,
-    misery_mire_medallion: String,
-
-    bosses: Bosses,
-    prizes: Prizes,
-
-    hearts: Vec<String>,
-    heart_pieces: Vec<String>,
-    sanc_heart: String,
-
-    rupees: Rupees,
-    
-    bombs: Vec<Bomb>,
-    arrows: Vec<Arrow>,
-
-    maps: Vec<DungeonMap>,
-    compasses: Vec<Compass>,
-    big_keys: Vec<BigKey>,
-    small_keys: Vec<SmallKey>,
-    items: Vec<Item>,
-}
 
 fn main() {
     let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
     let outfile = env::args().nth(2).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
     println!("Reading from file: {}", filename);
+    read_parse_output(&filename, &outfile);
+}
 
+fn read_parse_output(filename: &str, outfile: &str) {
     let contents = fs::read_to_string(filename).expect("Could not read file!");
-    // let json = string_to_json(&contents).expect("Could not parse file to JSON");
+
     let json = string_to_json(&contents).unwrap_or_else(|error| {
         panic!("Problem parsing the file: {:?}", error);
     });
+
     let parsed = parse_json(&json).unwrap_or_else(|error| {
         panic!("Problem creating output: {:?}", error);
     });
@@ -483,4 +342,190 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     };
     
     Ok(race_log)
+}
+
+// Does rust really require this be in the same file?! 0.o blech.
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // main. Cannot test because cannot fake the commandline args
+    #[test]
+    #[should_panic]
+    fn test_main_panics_because_no_args() {
+        main();
+    }
+
+    // read_parse_output
+    #[test]
+    #[should_panic]
+    fn test_read_parse_output_panics_because_invalid_filename() {
+        read_parse_output("", "");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_read_parse_output_panics_because_invalid_file_content() {
+        read_parse_output("./test/invalid.json", "");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_read_parse_output_panics_because_empty_json() {
+        read_parse_output("./test/empty.json", "");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_read_parse_output_panics_because_cannot_output() {
+        read_parse_output("./test/v31_simple.json", "/asdfasdfasfdasdfasdf/boop.json");
+    }
+
+    #[test]
+    fn test_read_parse_output_works_with_valid_file_and_locations() {
+        read_parse_output("./test/v31_simple.json", "/dev/null");
+    }
+
+    // string_to_json
+    #[test]
+    #[should_panic]
+    fn test_string_to_json_panics_because_invalid_json() {
+        let _result = string_to_json("Ceci n'est pas du JSON").expect("Kaboom!");
+    }
+
+    #[test]
+    fn test_string_to_json_works_with_valid_json() {
+        let _result = string_to_json("{}").expect("Kaboom!");
+    }
+
+    // insert_crystal_if_exists
+    #[test]
+    fn test_insert_crystal_if_exists_does_nothing_when_no_crystal_data() {
+        let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
+
+        crystals = insert_crystal_if_exists(String::from("Test"), String::from("notACrystal:1"), crystals);
+        for i in 0..6 {
+            assert!( 0 >= crystals[i].len() );
+        }
+    }
+
+    #[test]
+    fn test_insert_crystal_if_exists_works_when_crystal_data() {
+        let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
+
+        crystals = insert_crystal_if_exists(String::from("Test"), String::from("Crystal7:1"), crystals);
+        for i in 0..5 {
+            assert!( 0 >= crystals[i].len() );
+        }
+
+        assert!( 0 < crystals[6].len() );
+    }
+
+    #[test]
+    fn test_insert_crystal_if_exists_does_nothing_with_bad_input() {
+        let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
+
+        crystals = insert_crystal_if_exists(String::from("Test"), String::from("asdf"), crystals);
+        for i in 0..6 {
+            assert!( 0 >= crystals[i].len() );
+        }
+    }
+
+    #[test]
+    fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_low() {
+        let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
+
+        crystals = insert_crystal_if_exists(String::from("Test"), String::from("Crystal0:1"), crystals);
+        for i in 0..6 {
+            assert!( 0 >= crystals[i].len() );
+        }
+    }
+
+    #[test]
+    fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_high() {
+        let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
+
+        crystals = insert_crystal_if_exists(String::from("Test"), String::from("Crystal8:1"), crystals);
+        for i in 0..6 {
+            assert!( 0 >= crystals[i].len() );
+        }
+    }
+
+    // insert_pendant_if_exists
+    #[test]
+    fn test_insert_pendant_if_exists_does_nothing_when_no_pendant_data() {
+        let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
+
+        pendants = insert_pendant_if_exists(String::from("Test"), String::from("notAPendant:1"), pendants);
+        for i in 0..3 {
+            assert!( 0 >= pendants[i].len() );
+        }
+    }
+
+    #[test]
+    fn test_insert_pendant_if_exists_works_when_pendant_data_courage() {
+        let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
+
+        pendants = insert_pendant_if_exists(String::from("Test"), String::from("PendantOfCourage:1"), pendants);
+        assert!( 0 >= pendants[1].len() );
+        assert!( 0 >= pendants[2].len() );
+        assert!( 0 < pendants[0].len() );
+    }
+
+    #[test]
+    fn test_insert_pendant_if_exists_works_when_pendant_data_wisdom() {
+        let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
+
+        pendants = insert_pendant_if_exists(String::from("Test"), String::from("PendantOfWisdom:1"), pendants);
+        assert!( 0 >= pendants[2].len() );
+        assert!( 0 >= pendants[0].len() );
+        assert!( 0 < pendants[1].len() );
+    }
+
+    #[test]
+    fn test_insert_pendant_if_exists_works_when_pendant_data_power() {
+        let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
+
+        pendants = insert_pendant_if_exists(String::from("Test"), String::from("PendantOfPower:1"), pendants);
+        assert!( 0 >= pendants[1].len() );
+        assert!( 0 >= pendants[0].len() );
+        assert!( 0 < pendants[2].len() );
+    }
+
+    #[test]
+    fn test_insert_pendant_if_exists_does_nothing_with_bad_input() {
+        let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
+
+        pendants = insert_pendant_if_exists(String::from("Test"), String::from("asdf"), pendants);
+        for i in 0..3 {
+            assert!( 0 >= pendants[i].len() );
+        }
+    }
+
+    // parse_json
+    // TODO: more tests here for each part, maybe? Compare output of parser, compare output of JSON to expected as well?
+    #[test]
+    fn test_parse_json_works_with_valid_json() {
+        let contents = fs::read_to_string("./test/v31_simple.json").expect("Could not read file!");
+
+        let json = string_to_json(&contents).unwrap_or_else(|error| {
+            panic!("Problem parsing the file: {:?}", error);
+        });
+
+        let _result = parse_json(&json).expect("No parse for you!");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_parse_json_fails_with_empty_json() {
+        let contents = fs::read_to_string("./test/empty.json").expect("Could not read file!");
+
+        let json = string_to_json(&contents).unwrap_or_else(|error| {
+            panic!("Problem parsing the file: {:?}", error);
+        });
+
+        let _parse_result = parse_json(&json).unwrap_or_else(|error| {
+            panic!("Could not [parse!]: {:?}", error);
+        });
+    }
 }

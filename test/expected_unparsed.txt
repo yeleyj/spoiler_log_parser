@@ -1,0 +1,707 @@
+RaceLog {
+    enemizer: Enemizer {
+        boss_shuffle: "none",
+        enemy_shuffle: "none",
+        enemy_damage: "default",
+        enemy_health: "default",
+    },
+    mode: "open",
+    goal: "ganon",
+    entry_crystals_ganon: "7",
+    entry_crystals_tower: "7",
+    item_placement: "basic",
+    item_pool: "normal",
+    item_functionality: "normal",
+    dungeon_items: "standard",
+    logic: "NoGlitches",
+    accessibility: "locations",
+    weapons: "assured",
+    hints: "on",
+    spoilers: "on",
+    build: "2019-11-15",
+    waterfall_fairy: "BottleWithGreenPotion:1",
+    pyramid_fairy: "BottleWithRedPotion:1",
+    turtle_rock_medallion: "Ether:1",
+    misery_mire_medallion: "Ether:1",
+    bosses: Bosses {
+        eastern_palace: "Armos Knights",
+        desert_palace: "Lanmolas",
+        tower_of_hera: "Moldorm",
+        hyrule_castle: "Agahnim",
+        palace_of_darkness: "Helmasaur King",
+        swamp_palace: "Arrghus",
+        skull_woods: "Mothula",
+        thieves_town: "Blind",
+        ice_palace: "Kholdstare",
+        misery_mire: "Vitreous",
+        turtle_rock: "Trinexx",
+        ganons_tower_basement: "Armos Knights",
+        ganons_tower_middle: "Lanmolas",
+        ganons_tower_top: "Moldorm",
+        ganons_tower: "Agahnim 2",
+        ganon: "Ganon",
+    },
+    prizes: Prizes {
+        crystals: [
+            "Swamp Palace",
+            "Skull Woods",
+            "Eastern Palace",
+            "Tower Of Hera",
+            "Ice Palace",
+            "Dark Palace",
+            "Desert Palace",
+        ],
+        pendants: [
+            "Thieves Town",
+            "Misery Mire",
+            "Turtle Rock",
+        ],
+    },
+    hearts: [
+        "Checkerboard Cave:1",
+        "King\'s Tomb:1",
+        "Mini Moldorm Cave - Left:1",
+        "Paradox Cave Lower - Left:1",
+        "Spectacle Rock Cave:1",
+        "C-Shaped House:1",
+        "Hype Cave - NPC:1",
+        "Pyramid Fairy - Left:1",
+        "Thieves\' Town - Map Chest:1",
+        "Ganon\'s Tower - DMs Room - Top Left:1",
+    ],
+    heart_pieces: [
+        "Aginah\'s Cave:1",
+        "Bottle Merchant:1",
+        "Link\'s House:1",
+        "Pegasus Rocks:1",
+        "Waterfall Fairy - Right:1",
+        "Sewers - Secret Room - Left:1",
+        "Eastern Palace - Big Key Chest:1",
+        "Eastern Palace - Boss:1",
+        "Paradox Cave Lower - Middle:1",
+        "Catfish:1",
+        "Hookshot Cave - Top Left:1",
+        "Hype Cave - Bottom:1",
+        "Pyramid Fairy - Right:1",
+        "Superbunny Cave - Top:1",
+        "Palace of Darkness - Boss:1",
+        "Swamp Palace - Flooded Room - Left:1",
+        "Ice Palace - Big Chest:1",
+        "Ice Palace - Map Chest:1",
+        "Misery Mire - Boss:1",
+        "Turtle Rock - Eye Bridge - Bottom Left:1",
+        "Ganon\'s Tower - Big Chest:1",
+        "Ganon\'s Tower - Randomizer Room - Bottom Right:1",
+        "Ganon\'s Tower - Randomizer Room - Top Left:1",
+        "Tower of Hera - Compass Chest:1",
+    ],
+    sanc_heart: "Turtle Rock - Big Key Chest:1",
+    rupees: Rupees {
+        three_hundred_rupees: [
+            "Kakariko Well - Middle:1",
+            "Mini Moldorm Cave - NPC:1",
+            "Thieves\' Town - Big Key Chest:1",
+            "Ganon\'s Tower - Bob\'s Chest:1",
+            "Ganon\'s Tower - Randomizer Room - Bottom Left:1",
+        ],
+        one_hundred_rupees: [
+            "Mini Moldorm Cave - Far Left:1",
+        ],
+        fifty_rupees: [
+            "King Zora:1",
+            "Potion Shop:1",
+            "Sewers - Dark Cross:1",
+            "Old Man:1",
+            "Paradox Cave Lower - Far Right:1",
+            "Paradox Cave Upper - Left:1",
+            "Hookshot Cave - Bottom Left:1",
+            "Ice Palace - Iced T Room:1",
+        ],
+        twenty_rupees: [
+            "Blind\'s Hideout - Far Left:1",
+            "Desert Ledge:1",
+            "Flute Spot:1",
+            "Kakariko Tavern:1",
+            "Kakariko Well - Left:1",
+            "Kakariko Well - Top:1",
+            "Lumberjack Tree:1",
+            "Mini Moldorm Cave - Far Right:1",
+            "Mushroom:1",
+            "Sahasrahla\'s Hut - Middle:1",
+            "Sahasrahla\'s Hut - Right:1",
+            "Ether Tablet:1",
+            "Paradox Cave Lower - Far Left:1",
+            "Hype Cave - Top:1",
+            "Mire Shed - Left:1",
+            "Spike Cave:1",
+            "Swamp Palace - Big Key Chest:1",
+            "Swamp Palace - Map Chest:1",
+            "Thieves\' Town - Ambush Chest:1",
+            "Turtle Rock - Boss:1",
+            "Ganon\'s Tower - Big Key Chest:1",
+            "Ganon\'s Tower - Compass Room - Bottom Left:1",
+            "Ganon\'s Tower - Compass Room - Top Left:1",
+            "Ganon\'s Tower - Compass Room - Top Right:1",
+            "Ganon\'s Tower - DMs Room - Bottom Left:1",
+            "Ganon\'s Tower - Hope Room - Right:1",
+            "Ganon\'s Tower - Map Chest:1",
+            "Ganon\'s Tower - Randomizer Room - Top Right:1",
+        ],
+        five_rupees: [
+            "Hobo:1",
+            "Ice Rod Cave:1",
+            "Palace of Darkness - Dark Maze - Bottom:1",
+            "Skull Woods - Map Chest:1",
+        ],
+        one_rupee: [
+            "Mimic Cave:1",
+            "Swamp Palace - Big Chest:1",
+        ],
+    },
+    bombs: [
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Blind\'s Hideout - Top:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Bombos Tablet:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Floodgate Chest:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Master Sword Pedestal:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Maze Race:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Mini Moldorm Cave - Right:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Sahasrahla\'s Hut - Left:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Sick Kid:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Floating Island:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Spectacle Rock:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Brewery:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Digging Game:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Hype Cave - Middle Right:1",
+        },
+        Bomb {
+            bomb_count: 10,
+            bomb_location: "Mire Shed - Right:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Stumpy:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Palace of Darkness - Dark Maze - Top:1",
+        },
+        Bomb {
+            bomb_count: 3,
+            bomb_location: "Skull Woods - Pot Prison:1",
+        },
+    ],
+    arrows: [
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Kakariko Well - Bottom:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Library:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Waterfall Fairy - Left:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Zora\'s Ledge:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Hyrule Castle - Boomerang Chest:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Blacksmith:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Hookshot Cave - Bottom Right:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Swamp Palace - Boss:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Ganon\'s Tower - Big Key Room - Left:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Ganon\'s Tower - DMs Room - Top Right:1",
+        },
+        Arrow {
+            arrow_count: 1,
+            arrow_location: "Ganon\'s Tower - Hope Room - Left:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Ganon\'s Tower - Moldorm Chest:1",
+        },
+        Arrow {
+            arrow_count: 10,
+            arrow_location: "Ganon\'s Tower - Pre-Moldorm Chest:1",
+        },
+    ],
+    maps: [
+        DungeonMap {
+            map_name: "MapH2:1",
+            map_location: "Hyrule Castle - Zelda\'s Cell:1",
+        },
+        DungeonMap {
+            map_name: "MapP1:1",
+            map_location: "Eastern Palace - Map Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapP2:1",
+            map_location: "Desert Palace - Compass Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapD1:1",
+            map_location: "Palace of Darkness - Big Key Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapD2:1",
+            map_location: "Swamp Palace - West Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapD3:1",
+            map_location: "Skull Woods - Big Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapD4:1",
+            map_location: "Thieves\' Town - Attic:1",
+        },
+        DungeonMap {
+            map_name: "MapD5:1",
+            map_location: "Ice Palace - Boss:1",
+        },
+        DungeonMap {
+            map_name: "MapD6:1",
+            map_location: "Misery Mire - Map Chest:1",
+        },
+        DungeonMap {
+            map_name: "MapD7:1",
+            map_location: "Turtle Rock - Eye Bridge - Top Left:1",
+        },
+        DungeonMap {
+            map_name: "MapA2:1",
+            map_location: "Ganon\'s Tower - Mini Helmasaur Room - Left:1",
+        },
+        DungeonMap {
+            map_name: "MapP3:1",
+            map_location: "Tower of Hera - Big Chest:1",
+        },
+    ],
+    compasses: [
+        Compass {
+            compass_name: "CompassP1:1",
+            compass_location: "Eastern Palace - Big Chest:1",
+        },
+        Compass {
+            compass_name: "CompassP2:1",
+            compass_location: "Desert Palace - Boss:1",
+        },
+        Compass {
+            compass_name: "CompassD1:1",
+            compass_location: "Palace of Darkness - Compass Chest:1",
+        },
+        Compass {
+            compass_name: "CompassD2:1",
+            compass_location: "Swamp Palace - Waterfall Room:1",
+        },
+        Compass {
+            compass_name: "CompassD3:1",
+            compass_location: "Skull Woods - Bridge Room:1",
+        },
+        Compass {
+            compass_name: "CompassD4:1",
+            compass_location: "Thieves\' Town - Boss:1",
+        },
+        Compass {
+            compass_name: "CompassD5:1",
+            compass_location: "Ice Palace - Compass Chest:1",
+        },
+        Compass {
+            compass_name: "CompassD6:1",
+            compass_location: "Misery Mire - Big Chest:1",
+        },
+        Compass {
+            compass_name: "CompassD7:1",
+            compass_location: "Turtle Rock - Roller Room - Left:1",
+        },
+        Compass {
+            compass_name: "CompassA2:1",
+            compass_location: "Ganon\'s Tower - Compass Room - Bottom Right:1",
+        },
+        Compass {
+            compass_name: "CompassP3:1",
+            compass_location: "Tower of Hera - Map Chest:1",
+        },
+    ],
+    big_keys: [
+        BigKey {
+            key_name: "BigKeyP1:1",
+            key_location: "Eastern Palace - Cannonball Chest:1",
+        },
+        BigKey {
+            key_name: "BigKeyP2:1",
+            key_location: "Desert Palace - Torch:1",
+        },
+        BigKey {
+            key_name: "BigKeyD1:1",
+            key_location: "Palace of Darkness - Map Chest:1",
+        },
+        BigKey {
+            key_name: "BigKeyD2:1",
+            key_location: "Swamp Palace - Flooded Room - Right:1",
+        },
+        BigKey {
+            key_name: "BigKeyD3:1",
+            key_location: "Skull Woods - Boss:1",
+        },
+        BigKey {
+            key_name: "BigKeyD4:1",
+            key_location: "Thieves\' Town - Compass Chest:1",
+        },
+        BigKey {
+            key_name: "BigKeyD5:1",
+            key_location: "Ice Palace - Freezor Chest:1",
+        },
+        BigKey {
+            key_name: "BigKeyD6:1",
+            key_location: "Misery Mire - Compass Chest:1",
+        },
+        BigKey {
+            key_name: "BigKeyD7:1",
+            key_location: "Turtle Rock - Chain Chomps:1",
+        },
+        BigKey {
+            key_name: "BigKeyA2:1",
+            key_location: "Ganon\'s Tower - Firesnake Room:1",
+        },
+        BigKey {
+            key_name: "BigKeyP3:1",
+            key_location: "Tower of Hera - Basement Cage:1",
+        },
+    ],
+    small_keys: [
+        SmallKey {
+            key_name: "KeyH2:1",
+            key_location: "Sanctuary:1",
+        },
+        SmallKey {
+            key_name: "KeyP2:1",
+            key_location: "Desert Palace - Big Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyA1:1",
+            key_location: "Castle Tower - Dark Maze:1",
+        },
+        SmallKey {
+            key_name: "KeyA1:1",
+            key_location: "Castle Tower - Room 03:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - Dark Basement - Left:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - Dark Basement - Right:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - Shooter Room:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - Stalfos Basement:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - The Arena - Bridge:1",
+        },
+        SmallKey {
+            key_name: "KeyD1:1",
+            key_location: "Palace of Darkness - The Arena - Ledge:1",
+        },
+        SmallKey {
+            key_name: "KeyD2:1",
+            key_location: "Swamp Palace - Entrance:1",
+        },
+        SmallKey {
+            key_name: "KeyD3:1",
+            key_location: "Skull Woods - Big Key Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD3:1",
+            key_location: "Skull Woods - Compass Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD3:1",
+            key_location: "Skull Woods - Pinball Room:1",
+        },
+        SmallKey {
+            key_name: "KeyD4:1",
+            key_location: "Thieves\' Town - Blind\'s Cell:1",
+        },
+        SmallKey {
+            key_name: "KeyD5:1",
+            key_location: "Ice Palace - Big Key Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD5:1",
+            key_location: "Ice Palace - Spike Room:1",
+        },
+        SmallKey {
+            key_name: "KeyD6:1",
+            key_location: "Misery Mire - Bridge Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD6:1",
+            key_location: "Misery Mire - Main Lobby:1",
+        },
+        SmallKey {
+            key_name: "KeyD6:1",
+            key_location: "Misery Mire - Spike Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD7:1",
+            key_location: "Turtle Rock - Big Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD7:1",
+            key_location: "Turtle Rock - Compass Chest:1",
+        },
+        SmallKey {
+            key_name: "KeyD7:1",
+            key_location: "Turtle Rock - Eye Bridge - Bottom Right:1",
+        },
+        SmallKey {
+            key_name: "KeyD7:1",
+            key_location: "Turtle Rock - Roller Room - Right:1",
+        },
+        SmallKey {
+            key_name: "KeyA2:1",
+            key_location: "Ganon\'s Tower - Bob\'s Torch:1",
+        },
+        SmallKey {
+            key_name: "KeyA2:1",
+            key_location: "Ganon\'s Tower - DMs Room - Bottom Right:1",
+        },
+        SmallKey {
+            key_name: "KeyA2:1",
+            key_location: "Ganon\'s Tower - Mini Helmasaur Room - Right:1",
+        },
+        SmallKey {
+            key_name: "KeyA2:1",
+            key_location: "Ganon\'s Tower - Tile Room:1",
+        },
+        SmallKey {
+            key_name: "KeyP3:1",
+            key_location: "Tower of Hera - Boss:1",
+        },
+    ],
+    items: [
+        Item {
+            item_name: "MoonPearl:1",
+            item_location: "Blind\'s Hideout - Far Right:1",
+        },
+        Item {
+            item_name: "ProgressiveShield:1",
+            item_location: "Blind\'s Hideout - Left:1",
+        },
+        Item {
+            item_name: "BookOfMudora:1",
+            item_location: "Blind\'s Hideout - Right:1",
+        },
+        Item {
+            item_name: "Boomerang:1",
+            item_location: "Cave 45:1",
+        },
+        Item {
+            item_name: "HalfMagic:1",
+            item_location: "Chicken House:1",
+        },
+        Item {
+            item_name: "ProgressiveShield:1",
+            item_location: "Graveyard Ledge:1",
+        },
+        Item {
+            item_name: "Cape:1",
+            item_location: "Kakariko Well - Right:1",
+        },
+        Item {
+            item_name: "ProgressiveBow:1",
+            item_location: "Lake Hylia Island:1",
+        },
+        Item {
+            item_name: "Powder:1",
+            item_location: "Lost Woods Hideout:1",
+        },
+        Item {
+            item_name: "Ether:1",
+            item_location: "Magic Bat:1",
+        },
+        Item {
+            item_name: "CaneOfByrna:1",
+            item_location: "Sahasrahla:1",
+        },
+        Item {
+            item_name: "MagicMirror:1",
+            item_location: "Sunken Treasure:1",
+        },
+        Item {
+            item_name: "ProgressiveGlove:1",
+            item_location: "Hyrule Castle - Map Chest:1",
+        },
+        Item {
+            item_name: "Hookshot:1",
+            item_location: "Link\'s Uncle:1",
+        },
+        Item {
+            item_name: "Hammer:1",
+            item_location: "Secret Passage:1",
+        },
+        Item {
+            item_name: "PegasusBoots:1",
+            item_location: "Sewers - Secret Room - Middle:1",
+        },
+        Item {
+            item_name: "OcarinaInactive:1",
+            item_location: "Sewers - Secret Room - Right:1",
+        },
+        Item {
+            item_name: "ProgressiveArmor:1",
+            item_location: "Eastern Palace - Compass Chest:1",
+        },
+        Item {
+            item_name: "ProgressiveGlove:1",
+            item_location: "Desert Palace - Big Key Chest:1",
+        },
+        Item {
+            item_name: "Bombos:1",
+            item_location: "Desert Palace - Map Chest:1",
+        },
+        Item {
+            item_name: "ProgressiveBow:1",
+            item_location: "Paradox Cave Lower - Right:1",
+        },
+        Item {
+            item_name: "Bottle:1",
+            item_location: "Paradox Cave Upper - Right:1",
+        },
+        Item {
+            item_name: "RedBoomerang:1",
+            item_location: "Spiral Cave:1",
+        },
+        Item {
+            item_name: "Lamp:1",
+            item_location: "Bumper Cave:1",
+        },
+        Item {
+            item_name: "Flippers:1",
+            item_location: "Chest Game:1",
+        },
+        Item {
+            item_name: "CaneOfSomaria:1",
+            item_location: "Hammer Pegs:1",
+        },
+        Item {
+            item_name: "BottleWithRedPotion:1",
+            item_location: "Hookshot Cave - Top Right:1",
+        },
+        Item {
+            item_name: "BottleWithGreenPotion:1",
+            item_location: "Hype Cave - Middle Left:1",
+        },
+        Item {
+            item_name: "BugCatchingNet:1",
+            item_location: "Purple Chest:1",
+        },
+        Item {
+            item_name: "ProgressiveSword:1",
+            item_location: "Pyramid:1",
+        },
+        Item {
+            item_name: "Quake:1",
+            item_location: "Superbunny Cave - Bottom:1",
+        },
+        Item {
+            item_name: "BottleWithBee:1",
+            item_location: "Palace of Darkness - Big Chest:1",
+        },
+        Item {
+            item_name: "ProgressiveSword:1",
+            item_location: "Palace of Darkness - Harmless Hellway:1",
+        },
+        Item {
+            item_name: "ProgressiveSword:1",
+            item_location: "Swamp Palace - Compass Chest:1",
+        },
+        Item {
+            item_name: "ProgressiveArmor:1",
+            item_location: "Thieves\' Town - Big Chest:1",
+        },
+        Item {
+            item_name: "FireRod:1",
+            item_location: "Misery Mire - Big Key Chest:1",
+        },
+        Item {
+            item_name: "Mushroom:1",
+            item_location: "Turtle Rock - Crystaroller Room:1",
+        },
+        Item {
+            item_name: "ProgressiveShield:1",
+            item_location: "Turtle Rock - Eye Bridge - Top Right:1",
+        },
+        Item {
+            item_name: "IceRod:1",
+            item_location: "Ganon\'s Tower - Big Key Room - Right:1",
+        },
+        Item {
+            item_name: "Shovel:1",
+            item_location: "Tower of Hera - Big Key Chest:1",
+        },
+    ],
+}
