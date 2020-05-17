@@ -1,7 +1,5 @@
 use std::env;
 use std::fs;
-use std::fs::File;
-use std::io::prelude::*;
 use std::collections::HashMap;
 
 use serde_json::{Result, Value};
@@ -16,13 +14,11 @@ use structs::{Enemizer, Bosses, Prizes, Rupees, Bomb, Arrow, Item, DungeonMap, C
 // This is as much to learn Rust as anything else.
 
 fn main() {
-    let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
-    let outfile = env::args().nth(2).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
-    println!("Reading from file: {}", filename);
-    read_parse_output(&filename, &outfile);
+    let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename>");
+    read_parse_output(&filename);
 }
 
-fn read_parse_output(filename: &str, outfile: &str) {
+fn read_parse_output(filename: &str) {
     let contents = fs::read_to_string(filename).expect("Could not read file!");
 
     let json = string_to_json(&contents).unwrap_or_else(|error| {
@@ -35,17 +31,7 @@ fn read_parse_output(filename: &str, outfile: &str) {
     // println!("output {:#?}", parsed);
 
     let output = serde_json::to_string(&parsed).unwrap();
-    // println!("output {:#?}", output);
-
-    let mut file = File::create(&outfile).unwrap_or_else(|error| {
-        panic!("Could not create file: {:?}", error);
-    });
-
-    let _write_result = file.write_all(&output.as_bytes()).unwrap_or_else(|error| {
-        panic!("Could not write file: {:?}", error);
-    });
-
-    println!("Output file written. Enjoy!");
+    println!( "{}", output.to_string() );
 }
 
 fn string_to_json(data: &str) -> Result<serde_json::value::Value> {

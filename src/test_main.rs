@@ -11,30 +11,23 @@ fn test_main_panics_because_no_args() {
 #[test]
 #[should_panic]
 fn test_read_parse_output_panics_because_invalid_filename() {
-    read_parse_output("", "");
+    read_parse_output("");
 }
 
 #[test]
 #[should_panic]
 fn test_read_parse_output_panics_because_invalid_file_content() {
-    read_parse_output("./test/invalid.json", "");
+    read_parse_output("./test/invalid.json");
 }
 
 #[test]
-#[should_panic]
-fn test_read_parse_output_panics_because_empty_json() {
-    read_parse_output("./test/empty.json", "");
-}
-
-#[test]
-#[should_panic]
-fn test_read_parse_output_panics_because_cannot_output() {
-    read_parse_output("./test/v31_simple.json", "/asdfasdfasfdasdfasdf/boop.json");
+fn test_read_parse_output_works_with_empty_json() {
+    read_parse_output("./test/empty.json");
 }
 
 #[test]
 fn test_read_parse_output_works_with_valid_file_and_locations() {
-    read_parse_output("./test/v31_simple.json", "/dev/null");
+    read_parse_output("./test/v31_simple.json");
 }
 
 // string_to_json

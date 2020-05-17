@@ -7,8 +7,9 @@ Currently, the code is not very efficient. I simply got a version that works tog
 
 ### Usage
 ```
-spoiler_log_parser <path_to_spoiler_log_file> <path_to_output_file>
-EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" "/home/bob/parsed.json"
+spoiler_log_parser <path_to_spoiler_log_file>
+EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" # output to stdout
+EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" > /home/bob/spoiler.json # output to file
 ```
 
 ### Building, running, and testing source
@@ -16,7 +17,6 @@ Building is simple. From the spoiler_log_parser directory, simply run `cargo tes
 
 ### Future plans:
 - Make binaries available for various platforms (at least linux and Win10) to avoid requiring installing rust (not great on Windows)
-- Allow outputting to stdout maybe?
 - Friendlier names for some things (could tie into the below)
 - i18n or whatever works for translations?
 - Support other modes (this currently only definitely works on the settings I chose, but should work for all v31 I think)
