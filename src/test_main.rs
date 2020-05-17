@@ -168,7 +168,20 @@ fn test_parse_json_works_with_valid_json() {
 
 #[test]
 #[should_panic]
-fn test_parse_json_fails_with_empty_json() {
+fn test_parse_json_fails_with_invalid_json() {
+    let contents = fs::read_to_string("./test/invalid.json").expect("Could not read file!");
+
+    let json = string_to_json(&contents).unwrap_or_else(|error| {
+        panic!("Problem parsing the file: {:?}", error);
+    });
+
+    let _parse_result = parse_json(&json).unwrap_or_else(|error| {
+        panic!("Could not [parse!]: {:?}", error);
+    });
+}
+
+#[test]
+fn test_parse_json_works_with_empty_json() {
     let contents = fs::read_to_string("./test/empty.json").expect("Could not read file!");
 
     let json = string_to_json(&contents).unwrap_or_else(|error| {

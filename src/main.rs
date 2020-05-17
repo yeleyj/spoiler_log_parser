@@ -14,9 +14,6 @@ use structs::{Enemizer, Bosses, Prizes, Rupees, Bomb, Arrow, Item, DungeonMap, C
 // So far, I've only tested on open 7/7 with all the easiest options.
 // I will need to generate other seeds for more testing.
 // This is as much to learn Rust as anything else.
-//
-// TODO: get confirmation on the meanings of some of the things, especially in "meta"
-// TODO: clean up some stuff when I'm better at rust :P :)
 
 fn main() {
     let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename> <output filename>");
@@ -46,7 +43,7 @@ fn read_parse_output(filename: &str, outfile: &str) {
 
     let _write_result = file.write_all(&output.as_bytes()).unwrap_or_else(|error| {
         panic!("Could not write file: {:?}", error);
-    });   
+    });
 
     println!("Output file written. Enjoy!");
 }
@@ -96,6 +93,16 @@ fn insert_pendant_if_exists( label: &str, prize_name: &str, pendants: &mut [Stri
     }
 }
 
+fn unbox_json_str_or_return_empty_string(serde_val_val: &serde_json::value::Value) -> String {
+    let unboxed_string = serde_val_val.as_str().unwrap_or("");
+
+    return String::from(unboxed_string);
+}
+
+fn unbox_json_str_or_return_empty_str(serde_val_val: &serde_json::value::Value) -> &str {
+    return serde_val_val.as_str().unwrap_or("");
+}
+
 fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     // parse things out and build :)
 
@@ -118,13 +125,13 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     for (key, value) in prize_map.iter() {
         insert_crystal_if_exists(
             key,
-            json[ key ][ value ].as_str().unwrap(),
+            unbox_json_str_or_return_empty_str( &json[ key ][ value ] ),
             &mut crystals
         );
 
         insert_pendant_if_exists(
             key,
-            json[ key ][ value ].as_str().unwrap(),
+            unbox_json_str_or_return_empty_str( &json[ key ][ value ] ),
             &mut pendants
         );
     }
@@ -167,7 +174,13 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     ];
 
     for location in location_map.iter() {
-        for (key, value) in json[location].as_object().unwrap().iter() {
+        // This nonsense ensures compatible types and not a None thing. unwrap_or_else must return same type. Need delcared var because expects ref to obj
+        let empty_map: serde_json::map::Map<std::string::String, serde_json::value::Value> = serde_json::map::Map::new();
+        let iterable_map = json[location].as_object().unwrap_or_else( || {
+            &empty_map
+        });
+
+        for (key, value) in iterable_map.iter() {
             if "PieceOfHeart:1" == value {
                 heart_pieces.push( String::from(key) );
             } else if "BossHeartContainer:1" == value {
@@ -219,31 +232,31 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
                         arrow_location: String::from(key),
                     }
                 );
-            } else if String::from( value.as_str().unwrap() ).starts_with("Compass") {
+            } else if unbox_json_str_or_return_empty_string(&value).starts_with("Compass") {
                 compasses.push(
                     Compass {
-                        compass_name: String::from( value.as_str().unwrap() ),
+                        compass_name: unbox_json_str_or_return_empty_string(&value),
                         compass_location: String::from(key),
                     }
                 );
-            } else if String::from( value.as_str().unwrap() ).starts_with("Map") {
+            } else if unbox_json_str_or_return_empty_string(&value).starts_with("Map") {
                 maps.push(
                     DungeonMap {
-                        map_name: String::from( value.as_str().unwrap() ),
+                        map_name: unbox_json_str_or_return_empty_string(&value),
                         map_location: String::from(key),
                     }
                 );
-            } else if String::from( value.as_str().unwrap() ).starts_with("BigKey") {
+            } else if unbox_json_str_or_return_empty_string(&value).starts_with("BigKey") {
                 big_keys.push(
                     BigKey {
-                        key_name: String::from( value.as_str().unwrap() ),
+                        key_name: unbox_json_str_or_return_empty_string(&value),
                         key_location: String::from(key),
                     }
                 );
-            } else if String::from( value.as_str().unwrap() ).starts_with("Key") {
+            } else if unbox_json_str_or_return_empty_string(&value).starts_with("Key") {
                 small_keys.push(
                     SmallKey {
-                        key_name: String::from( value.as_str().unwrap() ),
+                        key_name: unbox_json_str_or_return_empty_string(&value),
                         key_location: String::from(key),
                     }
                 );
@@ -254,7 +267,7 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
             } else {
                 items.push(
                     Item {
-                        item_name: String::from( value.as_str().unwrap() ),
+                        item_name: unbox_json_str_or_return_empty_string(&value),
                         item_location: String::from(key),
                     }
                 );
@@ -265,50 +278,50 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     // assemble final product
     let race_log = RaceLog{
         enemizer: Enemizer {
-            boss_shuffle:  String::from( json["meta"]["enemizer.boss_shuffle"].as_str().unwrap() ),
-            enemy_shuffle: String::from( json["meta"]["enemizer.enemy_shuffle"].as_str().unwrap() ),
-            enemy_damage:  String::from( json["meta"]["enemizer.enemy_damage"].as_str().unwrap() ),
-            enemy_health:  String::from( json["meta"]["enemizer.enemy_health"].as_str().unwrap() ),
+            boss_shuffle:  unbox_json_str_or_return_empty_string( &json["meta"]["enemizer.boss_shuffle"] ),
+            enemy_shuffle: unbox_json_str_or_return_empty_string( &json["meta"]["enemizer.enemy_shuffle"] ),
+            enemy_damage:  unbox_json_str_or_return_empty_string( &json["meta"]["enemizer.enemy_damage"] ),
+            enemy_health:  unbox_json_str_or_return_empty_string( &json["meta"]["enemizer.enemy_health"] ),
         },
         
-        mode: String::from( json["meta"]["mode"].as_str().unwrap() ),
-        goal: String::from( json["meta"]["goal"].as_str().unwrap() ),
-        entry_crystals_ganon: String::from( json["meta"]["entry_crystals_ganon"].as_str().unwrap() ),
-        entry_crystals_tower: String::from( json["meta"]["entry_crystals_tower"].as_str().unwrap() ),
-        item_placement: String::from( json["meta"]["item_placement"].as_str().unwrap() ),
-        item_pool: String::from( json["meta"]["item_pool"].as_str().unwrap() ),
-        item_functionality: String::from( json["meta"]["item_functionality"].as_str().unwrap() ),
-        dungeon_items: String::from( json["meta"]["dungeon_items"].as_str().unwrap() ),
-        logic: String::from( json["meta"]["logic"].as_str().unwrap() ),
-        accessibility: String::from( json["meta"]["accessibility"].as_str().unwrap() ),
-        weapons: String::from( json["meta"]["weapons"].as_str().unwrap() ),
-        hints: String::from( json["meta"]["hints"].as_str().unwrap() ),
-        spoilers: String::from( json["meta"]["spoilers"].as_str().unwrap() ),
-        build: String::from( json["meta"]["build"].as_str().unwrap() ),
+        mode: unbox_json_str_or_return_empty_string( &json["meta"]["mode"] ),
+        goal: unbox_json_str_or_return_empty_string( &json["meta"]["goal"] ),
+        entry_crystals_ganon: unbox_json_str_or_return_empty_string( &json["meta"]["entry_crystals_ganon"] ),
+        entry_crystals_tower: unbox_json_str_or_return_empty_string( &json["meta"]["entry_crystals_tower"] ),
+        item_placement: unbox_json_str_or_return_empty_string( &json["meta"]["item_placement"] ),
+        item_pool: unbox_json_str_or_return_empty_string( &json["meta"]["item_pool"] ),
+        item_functionality: unbox_json_str_or_return_empty_string( &json["meta"]["item_functionality"] ),
+        dungeon_items: unbox_json_str_or_return_empty_string( &json["meta"]["dungeon_items"] ),
+        logic: unbox_json_str_or_return_empty_string( &json["meta"]["logic"] ),
+        accessibility: unbox_json_str_or_return_empty_string( &json["meta"]["accessibility"] ),
+        weapons: unbox_json_str_or_return_empty_string( &json["meta"]["weapons"] ),
+        hints: unbox_json_str_or_return_empty_string( &json["meta"]["hints"] ),
+        spoilers: unbox_json_str_or_return_empty_string( &json["meta"]["spoilers"] ),
+        build: unbox_json_str_or_return_empty_string( &json["meta"]["build"] ),
 
-        waterfall_fairy: String::from( json["Special"]["Waterfall Bottle:1"].as_str().unwrap() ),
-        pyramid_fairy: String::from( json["Special"]["Pyramid Bottle:1"].as_str().unwrap() ),
+        waterfall_fairy: unbox_json_str_or_return_empty_string( &json["Special"]["Waterfall Bottle:1"] ),
+        pyramid_fairy: unbox_json_str_or_return_empty_string( &json["Special"]["Pyramid Bottle:1"] ),
         
-        turtle_rock_medallion: String::from( json["Special"]["Turtle Rock Medallion:1"].as_str().unwrap() ),
-        misery_mire_medallion: String::from( json["Special"]["Misery Mire Medallion:1"].as_str().unwrap() ),
+        turtle_rock_medallion: unbox_json_str_or_return_empty_string( &json["Special"]["Turtle Rock Medallion:1"] ),
+        misery_mire_medallion: unbox_json_str_or_return_empty_string( &json["Special"]["Misery Mire Medallion:1"] ),
 
         bosses: Bosses {
-            eastern_palace: String::from( json["Bosses"]["Eastern Palace"].as_str().unwrap() ),
-            desert_palace: String::from( json["Bosses"]["Desert Palace"].as_str().unwrap() ),
-            tower_of_hera: String::from( json["Bosses"]["Tower Of Hera"].as_str().unwrap() ),
-            hyrule_castle: String::from( json["Bosses"]["Hyrule Castle"].as_str().unwrap() ),
-            palace_of_darkness: String::from( json["Bosses"]["Palace Of Darkness"].as_str().unwrap() ),
-            swamp_palace: String::from( json["Bosses"]["Swamp Palace"].as_str().unwrap() ),
-            skull_woods: String::from( json["Bosses"]["Skull Woods"].as_str().unwrap() ),
-            thieves_town: String::from( json["Bosses"]["Thieves Town"].as_str().unwrap() ),
-            ice_palace: String::from( json["Bosses"]["Ice Palace"].as_str().unwrap() ),
-            misery_mire: String::from( json["Bosses"]["Misery Mire"].as_str().unwrap() ),
-            turtle_rock: String::from( json["Bosses"]["Turtle Rock"].as_str().unwrap() ),
-            ganons_tower_basement: String::from( json["Bosses"]["Ganons Tower Basement"].as_str().unwrap() ),
-            ganons_tower_middle: String::from( json["Bosses"]["Ganons Tower Middle"].as_str().unwrap() ),
-            ganons_tower_top: String::from( json["Bosses"]["Ganons Tower Top"].as_str().unwrap() ),
-            ganons_tower: String::from( json["Bosses"]["Ganons Tower"].as_str().unwrap() ),
-            ganon: String::from( json["Bosses"]["Ganon"].as_str().unwrap() ),
+            eastern_palace: unbox_json_str_or_return_empty_string( &json["Bosses"]["Eastern Palace"] ),
+            desert_palace: unbox_json_str_or_return_empty_string( &json["Bosses"]["Desert Palace"] ),
+            tower_of_hera: unbox_json_str_or_return_empty_string( &json["Bosses"]["Tower Of Hera"] ),
+            hyrule_castle: unbox_json_str_or_return_empty_string( &json["Bosses"]["Hyrule Castle"] ),
+            palace_of_darkness: unbox_json_str_or_return_empty_string( &json["Bosses"]["Palace Of Darkness"] ),
+            swamp_palace: unbox_json_str_or_return_empty_string( &json["Bosses"]["Swamp Palace"] ),
+            skull_woods: unbox_json_str_or_return_empty_string( &json["Bosses"]["Skull Woods"] ),
+            thieves_town: unbox_json_str_or_return_empty_string( &json["Bosses"]["Thieves Town"] ),
+            ice_palace: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ice Palace"] ),
+            misery_mire: unbox_json_str_or_return_empty_string( &json["Bosses"]["Misery Mire"] ),
+            turtle_rock: unbox_json_str_or_return_empty_string( &json["Bosses"]["Turtle Rock"] ),
+            ganons_tower_basement: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ganons Tower Basement"] ),
+            ganons_tower_middle: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ganons Tower Middle"] ),
+            ganons_tower_top: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ganons Tower Top"] ),
+            ganons_tower: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ganons Tower"] ),
+            ganon: unbox_json_str_or_return_empty_string( &json["Bosses"]["Ganon"] ),
         },
 
         prizes: Prizes {
