@@ -4,14 +4,10 @@ use std::collections::HashMap;
 
 use serde_json::{Result, Value};
 
-// Structs were moved to another file to keep things more readable here.
 mod structs;
 use structs::{Enemizer, Bosses, Prizes, Rupees, Bomb, Arrow, Item, DungeonMap, Compass, BigKey, SmallKey, RaceLog};
 
-// This is useful for the alttpr.com randomizer, V31
-// So far, I've only tested on open 7/7 with all the easiest options.
-// I will need to generate other seeds for more testing.
-// This is as much to learn Rust as anything else.
+// Please see the README.md for information and usage.
 
 fn main() {
     let filename = env::args().nth(1).expect("Usage: spoiler_log_parser <spoiler log filename>");
@@ -90,7 +86,7 @@ fn unbox_json_str_or_return_empty_str(serde_val_val: &serde_json::value::Value) 
 }
 
 fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
-    // parse things out and build :)
+    // parse the JSON and assemble the final object.
 
     // Get all the prizes. These are in order for chrystals, green pendant first for pendants.
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
@@ -141,6 +137,8 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     let mut items: Vec<Item> = Vec::new();
     let mut triforce_pieces: Vec<String> = Vec::new();
 
+    // Here are the location keys we want to check as they exist in the spoiler log.
+    // We will use these keys below and loop through to assign everything except the prizes handled above.
     let location_map: [&str; 16] = [
         "Light World",
         "Hyrule Castle",
