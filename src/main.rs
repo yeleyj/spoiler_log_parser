@@ -35,6 +35,7 @@ fn read_parse_output(filename: &str, outfile: &str) {
     let parsed = parse_json(&json).unwrap_or_else(|error| {
         panic!("Problem creating output: {:?}", error);
     });
+    // println!("output {:#?}", parsed);
 
     let output = serde_json::to_string(&parsed).unwrap();
     // println!("output {:#?}", output);
@@ -57,7 +58,7 @@ fn string_to_json(data: &str) -> Result<serde_json::value::Value> {
     Ok(v)
 }
 
-fn insert_crystal_if_exists( label: String, prize_name: String, mut crystals: [String; 7] ) -> [String; 7] {
+fn insert_crystal_if_exists( label: String, prize_name: String, crystals: &mut [String; 7] ) {
     // This is ugly. Is there not a better way in rust?
     for token in prize_name.split(":") {
         if  "Crystal1" == token  {
@@ -78,11 +79,9 @@ fn insert_crystal_if_exists( label: String, prize_name: String, mut crystals: [S
 
         break;
     }
-
-    crystals
 }
 
-fn insert_pendant_if_exists( label: String, prize_name: String, mut pendants: [String; 3] ) -> [String; 3] {
+fn insert_pendant_if_exists( label: String, prize_name: String, pendants: &mut [String; 3] ) {
     // This is ugly. Is there not a better way in rust?
     for token in prize_name.split(":") {
         if  "PendantOfCourage" == token  {
@@ -95,8 +94,6 @@ fn insert_pendant_if_exists( label: String, prize_name: String, mut pendants: [S
 
         break;
     }
-
-    pendants
 }
 
 fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
@@ -119,16 +116,16 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     prize_map.insert( String::from("Turtle Rock"), String::from("Turtle Rock - Prize:1") );
 
     for (key, value) in prize_map.iter() {
-        crystals = insert_crystal_if_exists(
+        insert_crystal_if_exists(
             String::from(key),
             String::from ( json[ key ][ value ].as_str().unwrap() ),
-            crystals
+            &mut crystals
         );
 
-        pendants = insert_pendant_if_exists(
+        insert_pendant_if_exists(
             String::from(key),
             String::from ( json[ key ][ value ].as_str().unwrap() ),
-            pendants
+            &mut pendants
         );
     }
 
