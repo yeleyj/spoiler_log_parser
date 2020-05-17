@@ -139,6 +139,7 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     let mut big_keys: Vec<BigKey> = Vec::new();
     let mut small_keys: Vec<SmallKey> = Vec::new();
     let mut items: Vec<Item> = Vec::new();
+    let mut triforce_pieces: Vec<String> = Vec::new();
 
     let location_map: [&str; 16] = [
         "Light World",
@@ -250,6 +251,8 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
                 sanc_heart = String::from(key);
             } else if String::from( key ).ends_with("Prize:1") {
                 // handled elsewhere
+            } else if "TriforcePiece:1" == value {
+                triforce_pieces.push( String::from(key) );
             } else {
                 items.push(
                     Item {
@@ -335,6 +338,7 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
         small_keys: small_keys,
         big_keys: big_keys,
         items: items,
+        triforce_pieces: triforce_pieces,
     };
     
     Ok(race_log)

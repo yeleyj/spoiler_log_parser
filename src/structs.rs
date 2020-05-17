@@ -135,4 +135,5 @@ pub struct RaceLog {
     pub big_keys: Vec<BigKey>,
     pub small_keys: Vec<SmallKey>,
     pub items: Vec<Item>,
+    pub triforce_pieces: Vec<String>,
 }
