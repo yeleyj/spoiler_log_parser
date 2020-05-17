@@ -58,38 +58,38 @@ fn string_to_json(data: &str) -> Result<serde_json::value::Value> {
     Ok(v)
 }
 
-fn insert_crystal_if_exists( label: String, prize_name: String, crystals: &mut [String; 7] ) {
-    // This is ugly. Is there not a better way in rust?
+fn insert_crystal_if_exists( label: &str, prize_name: &str, crystals: &mut [String; 7] ) {
+    // This is ugly, but I think cheaper than getting the string length and calling truncate on len -2
     for token in prize_name.split(":") {
         if  "Crystal1" == token  {
-            crystals[0] = label;
+            crystals[0] = String::from(label);
         } else if  "Crystal2" == token  {
-            crystals[1] = label;
+            crystals[1] = String::from(label);
         } else if  "Crystal3" == token  {
-            crystals[2] = label;
+            crystals[2] = String::from(label);
         } else if  "Crystal4" == token  {
-            crystals[3] = label;
+            crystals[3] = String::from(label);
         } else if  "Crystal5" == token  {
-            crystals[4] = label;
+            crystals[4] = String::from(label);
         } else if  "Crystal6" == token  {
-            crystals[5] = label;
+            crystals[5] = String::from(label);
         } else if  "Crystal7" == token  {
-            crystals[6] = label;
+            crystals[6] = String::from(label);
         }
 
         break;
     }
 }
 
-fn insert_pendant_if_exists( label: String, prize_name: String, pendants: &mut [String; 3] ) {
-    // This is ugly. Is there not a better way in rust?
+fn insert_pendant_if_exists( label: &str, prize_name: &str, pendants: &mut [String; 3] ) {
+    // This is ugly, but I think cheaper than getting the string length and calling truncate on len -2
     for token in prize_name.split(":") {
         if  "PendantOfCourage" == token  {
-            pendants[0] = label;
+            pendants[0] = String::from(label);
         } else if  "PendantOfWisdom" == token  {
-            pendants[1] = label;
+            pendants[1] = String::from(label);
         } else if  "PendantOfPower" == token  {
-            pendants[2] = label;
+            pendants[2] = String::from(label);
         }
 
         break;
@@ -103,28 +103,28 @@ fn parse_json(json: &serde_json::value::Value) -> Result<RaceLog> {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    let mut prize_map = HashMap::new();
-    prize_map.insert( String::from("Eastern Palace"), String::from("Eastern Palace - Prize:1") );
-    prize_map.insert( String::from("Desert Palace"), String::from("Desert Palace - Prize:1") );
-    prize_map.insert( String::from("Tower Of Hera"), String::from("Tower of Hera - Prize:1") );
-    prize_map.insert( String::from("Dark Palace"), String::from("Palace of Darkness - Prize:1") );
-    prize_map.insert( String::from("Swamp Palace"), String::from("Swamp Palace - Prize:1") );
-    prize_map.insert( String::from("Skull Woods"), String::from("Skull Woods - Prize:1") );
-    prize_map.insert( String::from("Thieves Town"), String::from("Thieves' Town - Prize:1") );
-    prize_map.insert( String::from("Ice Palace"), String::from("Ice Palace - Prize:1") );
-    prize_map.insert( String::from("Misery Mire"), String::from("Misery Mire - Prize:1") );
-    prize_map.insert( String::from("Turtle Rock"), String::from("Turtle Rock - Prize:1") );
+    let mut prize_map:HashMap<&str, &str> = HashMap::new();
+    prize_map.insert("Eastern Palace","Eastern Palace - Prize:1");
+    prize_map.insert("Desert Palace","Desert Palace - Prize:1");
+    prize_map.insert("Tower Of Hera","Tower of Hera - Prize:1");
+    prize_map.insert("Dark Palace","Palace of Darkness - Prize:1");
+    prize_map.insert("Swamp Palace","Swamp Palace - Prize:1");
+    prize_map.insert("Skull Woods","Skull Woods - Prize:1");
+    prize_map.insert("Thieves Town","Thieves' Town - Prize:1");
+    prize_map.insert("Ice Palace","Ice Palace - Prize:1");
+    prize_map.insert("Misery Mire","Misery Mire - Prize:1");
+    prize_map.insert("Turtle Rock","Turtle Rock - Prize:1");
 
     for (key, value) in prize_map.iter() {
         insert_crystal_if_exists(
-            String::from(key),
-            String::from ( json[ key ][ value ].as_str().unwrap() ),
+            key,
+            json[ key ][ value ].as_str().unwrap(),
             &mut crystals
         );
 
         insert_pendant_if_exists(
-            String::from(key),
-            String::from ( json[ key ][ value ].as_str().unwrap() ),
+            key,
+            json[ key ][ value ].as_str().unwrap(),
             &mut pendants
         );
     }

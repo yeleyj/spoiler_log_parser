@@ -54,7 +54,7 @@ fn test_string_to_json_works_with_valid_json() {
 fn test_insert_crystal_if_exists_does_nothing_when_no_crystal_data() {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
 
-    insert_crystal_if_exists(String::from("Test"), String::from("notACrystal:1"), &mut crystals);
+    insert_crystal_if_exists("Test", "notACrystal:1", &mut crystals);
     for i in 0..6 {
         assert!( 0 >= crystals[i].len() );
     }
@@ -64,7 +64,7 @@ fn test_insert_crystal_if_exists_does_nothing_when_no_crystal_data() {
 fn test_insert_crystal_if_exists_works_when_crystal_data() {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
 
-    insert_crystal_if_exists(String::from("Test"), String::from("Crystal7:1"), &mut crystals);
+    insert_crystal_if_exists("Test", "Crystal7:1", &mut crystals);
     for i in 0..5 {
         assert!( 0 >= crystals[i].len() );
     }
@@ -76,7 +76,7 @@ fn test_insert_crystal_if_exists_works_when_crystal_data() {
 fn test_insert_crystal_if_exists_does_nothing_with_bad_input() {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
 
-    insert_crystal_if_exists(String::from("Test"), String::from("asdf"), &mut crystals);
+    insert_crystal_if_exists("Test", "asdf", &mut crystals);
     for i in 0..6 {
         assert!( 0 >= crystals[i].len() );
     }
@@ -86,7 +86,7 @@ fn test_insert_crystal_if_exists_does_nothing_with_bad_input() {
 fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_low() {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
 
-    insert_crystal_if_exists(String::from("Test"), String::from("Crystal0:1"), &mut crystals);
+    insert_crystal_if_exists("Test", "Crystal0:1", &mut crystals);
     for i in 0..6 {
         assert!( 0 >= crystals[i].len() );
     }
@@ -96,7 +96,7 @@ fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_low() {
 fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_high() {
     let mut crystals: [String; 7] = [ String::new(), String::new(), String::new(), String::new(), String::new(), String::new(), String::new() ];
 
-    insert_crystal_if_exists(String::from("Test"), String::from("Crystal8:1"), &mut crystals);
+    insert_crystal_if_exists("Test", "Crystal8:1", &mut crystals);
     for i in 0..6 {
         assert!( 0 >= crystals[i].len() );
     }
@@ -107,7 +107,7 @@ fn test_insert_crystal_if_exists_does_nothing_with_unhandled_crystal_high() {
 fn test_insert_pendant_if_exists_does_nothing_when_no_pendant_data() {
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    insert_pendant_if_exists(String::from("Test"), String::from("notAPendant:1"), &mut pendants);
+    insert_pendant_if_exists("Test", "notAPendant:1", &mut pendants);
     for i in 0..3 {
         assert!( 0 >= pendants[i].len() );
     }
@@ -117,7 +117,7 @@ fn test_insert_pendant_if_exists_does_nothing_when_no_pendant_data() {
 fn test_insert_pendant_if_exists_works_when_pendant_data_courage() {
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    insert_pendant_if_exists(String::from("Test"), String::from("PendantOfCourage:1"), &mut pendants);
+    insert_pendant_if_exists("Test", "PendantOfCourage:1", &mut pendants);
     assert!( 0 >= pendants[1].len() );
     assert!( 0 >= pendants[2].len() );
     assert!( 0 < pendants[0].len() );
@@ -127,7 +127,7 @@ fn test_insert_pendant_if_exists_works_when_pendant_data_courage() {
 fn test_insert_pendant_if_exists_works_when_pendant_data_wisdom() {
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    insert_pendant_if_exists(String::from("Test"), String::from("PendantOfWisdom:1"), &mut pendants);
+    insert_pendant_if_exists("Test", "PendantOfWisdom:1", &mut pendants);
     assert!( 0 >= pendants[2].len() );
     assert!( 0 >= pendants[0].len() );
     assert!( 0 < pendants[1].len() );
@@ -137,7 +137,7 @@ fn test_insert_pendant_if_exists_works_when_pendant_data_wisdom() {
 fn test_insert_pendant_if_exists_works_when_pendant_data_power() {
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    insert_pendant_if_exists(String::from("Test"), String::from("PendantOfPower:1"), &mut pendants);
+    insert_pendant_if_exists("Test", "PendantOfPower:1", &mut pendants);
     assert!( 0 >= pendants[1].len() );
     assert!( 0 >= pendants[0].len() );
     assert!( 0 < pendants[2].len() );
@@ -147,7 +147,7 @@ fn test_insert_pendant_if_exists_works_when_pendant_data_power() {
 fn test_insert_pendant_if_exists_does_nothing_with_bad_input() {
     let mut pendants: [String; 3] = [ String::new(), String::new(), String::new() ];
 
-    insert_pendant_if_exists(String::from("Test"), String::from("asdf"), &mut pendants);
+    insert_pendant_if_exists("Test", "asdf", &mut pendants);
     for i in 0..3 {
         assert!( 0 >= pendants[i].len() );
     }
