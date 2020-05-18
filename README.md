@@ -12,7 +12,7 @@ EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD
 EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" > /home/bob/spoiler.json # output to file
 ```
 ### Building, running, and testing source
-Building is simple. From the spoiler_log_parser directory, simply run  `cargo test && cargo build && cargo run "/home/bob/spoiler.json" "/home/bob/output.json"`
+Building is simple. From the spoiler_log_parser directory, simply run  `cargo test && cargo build && cargo run "/home/bob/spoiler.json" > /home/bob/output.json`
 
 ### Future plans:
 - Make binaries available for various platforms (at least linux and Win10) to avoid requiring installing rust (not great on Windows)
