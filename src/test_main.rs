@@ -191,14 +191,22 @@ fn test_parse_json_works_with_empty_json() {
 
 #[test]
 fn test_unbox_json_str_or_return_empty_string_will_return_empty_string_on_null() {
-    assert_eq!( String::from(""), unbox_json_str_or_return_empty_string(&serde_json::value::Value::Null) );
+    assert_eq!( String::from(""), unbox_json_str_and_remove_colon_one_or_return_empty_string(&serde_json::value::Value::Null) );
 }
 
 #[test]
 fn test_unbox_json_str_or_return_empty_string_will_return_string_on_string() {
     let test_str = "potato";
     let test_val: serde_json::value::Value = serde_json::value::Value::String( String::from(test_str) );
-    assert_eq!( String::from(test_str), unbox_json_str_or_return_empty_string(&test_val) );
+    assert_eq!( String::from(test_str), unbox_json_str_and_remove_colon_one_or_return_empty_string(&test_val) );
+}
+
+#[test]
+fn test_unbox_json_str_or_return_empty_string_will_return_repalced_string_on_string_when_colon_one() {
+    let test_str = "potato:1";
+    let expected = "potato";
+    let test_val: serde_json::value::Value = serde_json::value::Value::String( String::from(test_str) );
+    assert_eq!( String::from(expected), unbox_json_str_and_remove_colon_one_or_return_empty_string(&test_val) );
 }
 
 // unbox_json_str_or_return_empty_str
@@ -213,4 +221,19 @@ fn test_unbox_json_str_or_return_empty_str_will_return_string_on_string() {
     let test_str = "potato";
     let test_val: serde_json::value::Value = serde_json::value::Value::String( String::from(test_str) );
     assert_eq!( test_str, unbox_json_str_or_return_empty_str(&test_val) );
+}
+
+// replace_final_colon_one_and_return_string
+
+#[test]
+fn test_replace_final_colon_one_and_return_string_will_return_same_when_no_colon_one() {
+    let test_str = "potato";
+    assert_eq!( test_str, replace_final_colon_one_and_return_string(&test_str) );
+}
+
+#[test]
+fn test_replace_final_colon_one_and_return_string_will_return_removed_when_colon_one() {
+    let test_str = "potato:1";
+    let expected = "potato";
+    assert_eq!( expected, replace_final_colon_one_and_return_string(&test_str) );
 }
