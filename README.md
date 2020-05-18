@@ -11,16 +11,12 @@ spoiler_log_parser <path_to_spoiler_log_file>
 EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" # output to stdout
 EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD.txt" > /home/bob/spoiler.json # output to file
 ```
-
 ### Building, running, and testing source
-Building is simple. From the spoiler_log_parser directory, simply run `cargo test && cargo build && cargo run "/home/bob/spoiler.json" "/home/bob/output.json"`
+Building is simple. From the spoiler_log_parser directory, simply run  `cargo test && cargo build && cargo run "/home/bob/spoiler.json" "/home/bob/output.json"`
 
 ### Future plans:
 - Make binaries available for various platforms (at least linux and Win10) to avoid requiring installing rust (not great on Windows)
-- Friendlier names for some things (could tie into the below)
-- i18n or whatever works for translations?
-- Support other modes (this currently only definitely works on the settings I chose, but should work for all v31 I think)
-- Implement the shops struct if requested/required
+- Support ignored objects (Playthrough, shops, equipment, and some stuff in meta)?
 - Attach to a pretty UI
 - Attach to a web server and do more stuff (users, options, etc. maybe?)
 - Create a mapper that shows all the locations on map (kinda like a tracker but with more info such as actual rewards)
