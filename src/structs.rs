@@ -92,6 +92,8 @@ pub struct SmallKey {
 pub struct RaceLog {
     // Stuff under meta and basic seed info
     pub enemizer: Enemizer,
+    
+    // Meta
     pub mode: String,
     pub goal: String,
     pub entry_crystals_ganon: String,
@@ -105,8 +107,10 @@ pub struct RaceLog {
     pub weapons: String,
     pub hints: String,
     pub spoilers: String,
-    pub build: String, // TODO: maybe use to confirm version and error if unsupported?
-    // tournament: String, // TODO: maybe use to disable any parsing or some features?
+    pub build: String,
+    
+    // I don't see any usefulness to the following. Not implemented.
+    // tournament:
     // world_id:
     // size:
     // worlds:
@@ -136,4 +140,9 @@ pub struct RaceLog {
     pub small_keys: Vec<SmallKey>,
     pub items: Vec<Item>,
     pub triforce_pieces: Vec<String>,
+
+    // Currently, I'm unaware of a need to implement these.
+    // Equipment
+    // playthrough
+    // Shops
 }
