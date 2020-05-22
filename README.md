@@ -15,6 +15,7 @@ EXAMPLE: spoiler_log_parser "/home/bob/alttpr - NoGlitches-open-ganon_29MQnAgKvD
 Building is simple. From the spoiler_log_parser directory, simply run  `cargo test && cargo build && cargo run "/home/bob/spoiler.json" > /home/bob/output.json`
 
 ### Future plans:
+- support other varieties; as it turns out, some/all of keysanity, entrance shuffle, enemizer, and/or inverted generate a file with completely different names :/
 - Make binaries available for various platforms (at least linux and Win10) to avoid requiring installing rust (not great on Windows)
 - Support ignored objects (Playthrough, shops, equipment, and some stuff in meta)?
 - Attach to a pretty UI
